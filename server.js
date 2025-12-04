@@ -6,8 +6,8 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
-const { makeWASocket } = require('@whiskeysockets/baileys');
-const { useMultiFileAuthState } = require('@whiskeysockets/baileys');
+const { makeWASocket, useMultiFileAuthState, DisconnectReason } = require('@whiskeysockets/baileys');
+const { Boom } = require('@hapi/boom');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -36,8 +36,9 @@ async function initializeWhatsApp() {
       const { connection, lastDisconnect } = update;
       
       if (connection === 'close') {
-        const shouldReconnect = (lastDisconnect?.error?.output?.statusCode) !== 401;
+        const shouldReconnect = (lastDisconnect?.error instanceof Boom)?.output?.statusCode !== DisconnectReason.loggedOut;
         console.log('Connection closed, reconnecting:', shouldReconnect);
+        isConnected = false;
         
         if (shouldReconnect) {
           setTimeout(() => initializeWhatsApp(), 5000);
@@ -45,6 +46,9 @@ async function initializeWhatsApp() {
       } else if (connection === 'open') {
         console.log('✅ Connected to WhatsApp!');
         isConnected = true;
+      } else if (connection === 'connecting') {
+        console.log('🔄 Connecting to WhatsApp...');
+        isConnected = false;
       }
     });
 

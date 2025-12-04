@@ -15,7 +15,8 @@ cp server.js server.js.backup 2>/dev/null || true
 
 # Step 3: Clean up TypeScript files (not needed for minimal deployment)
 echo "🧹 Cleaning up unnecessary files..."
-rm -rf lib/ src/ tsconfig.json jest.config.js eslint.config.mjs .prettierrc 2>/dev/null || true
+rm -rf lib/ tsconfig.json jest.config.js eslint.config.mjs .prettierrc 2>/dev/null || true
+# Keep src/ folder for reference but it won't be used
 
 # Step 4: Create minimal structure
 echo "📁 Creating minimal structure..."

@@ -15,7 +15,7 @@ cp package.minimal.json package.json
 ```
 
 ### Step 2: Use the Simple Server
-Your `server.js` is now ready - no TypeScript, no complex dependencies.
+Your `server.js` is now ready - no TypeScript, no complex dependencies, no lib folder needed!
 
 ### Step 3: Render.com Settings
 
@@ -71,7 +71,13 @@ POST /send-message
 
 ## 🚀 Deployment Steps
 
-1. **Push to GitHub**
+1. **Test locally first** (optional but recommended):
+   ```bash
+   npm install
+   node test-local.js
+   ```
+
+2. **Push to GitHub**
    ```bash
    git add .
    git commit -m "Ready for Render.com deployment"
