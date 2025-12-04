@@ -1,0 +1,74 @@
+# Render.com Deployment Configuration
+services:
+  # Main Ladybug Baileys Service
+  - type: web
+    name: ladybug-baileys
+    env: node
+    plan: starter
+    buildCommand: "npm run build"
+    startCommand: "npm run start:prod"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: LOG_LEVEL
+        value: info
+      - key: API_KEY
+        generateValue: true
+      - key: REDIS_URL
+        fromDatabase:
+          name: ladybug-redis
+          property: connectionString
+    healthCheck:
+      path: /health
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 3
+    scaling:
+      minInstances: 1
+      maxInstances: 3
+      targetMemoryPercent: 70
+      targetCPUUtilization: 60
+    disk:
+      name: ladybug-storage
+      mountPath: /app/storage
+      sizeGB: 10
+
+  # Redis Database
+  - type: redis
+    name: ladybug-redis
+    plan: starter
+    ipAllowList: []
+
+# Environment-specific configurations
+environments:
+  production:
+    services:
+      - type: web
+        name: ladybug-baileys
+        plan: pro
+        scaling:
+          minInstances: 2
+          maxInstances: 10
+        healthCheck:
+          path: /health
+          initialDelaySeconds: 60
+    envVars:
+      - key: ENABLE_METRICS
+        value: "true"
+      - key: ENABLE_WEBHOOKS
+        value: "true"
+
+  staging:
+    services:
+      - type: web
+        name: ladybug-baileys-staging
+        plan: starter
+        envVars:
+      - key: NODE_ENV
+        value: staging
+      - key: LOG_LEVEL
+        value: debug
