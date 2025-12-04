@@ -69,14 +69,8 @@
     "bcryptjs": "^2.4.3",
     "uuid": "^9.0.1",
     "node-cron": "^3.0.3",
-    "bull": "^4.12.2",
     "sharp": "^0.33.1",
-    "ffmpeg-static": "^5.2.0",
-    "axios": "^1.6.2",
-    "graphql": "^16.8.1",
-    "apollo-server-express": "^3.12.1",
-    "type-graphql": "^1.1.1",
-    "reflect-metadata": "^0.1.13"
+    "axios": "^1.6.2"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
@@ -100,7 +94,14 @@
     "ts-jest": "^29.1.1",
     "typedoc": "^0.25.4",
     "nodemon": "^3.0.2",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "ffmpeg-static": "^5.2.0",
+    "graphql": "^16.8.1",
+    "apollo-server-express": "^3.12.1",
+    "type-graphql": "^1.1.1",
+    "reflect-metadata": "^0.1.13",
+    "bull": "^4.12.2",
+    "rimraf": "^5.0.5"
   },
   "engines": {
     "node": ">=18.0.0",
